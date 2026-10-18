@@ -7,6 +7,7 @@ interface PerfilViewProps {
   savedEntriesCount: number;
   onNavigateTab: (tab: NavTab) => void;
   onLoginWithGoogle: (email: string, displayName: string) => void;
+  onLoginWithFirebaseGoogle?: () => Promise<void>;
   onUpdateUser: (updated: UserProfile) => void;
   onLogout: () => void;
 }
@@ -17,6 +18,7 @@ export const PerfilView: React.FC<PerfilViewProps> = ({
   savedEntriesCount,
   onNavigateTab,
   onLoginWithGoogle,
+  onLoginWithFirebaseGoogle,
   onUpdateUser,
   onLogout
 }) => {
@@ -34,10 +36,29 @@ export const PerfilView: React.FC<PerfilViewProps> = ({
   const [iglesia, setIglesia] = useState(currentUser?.iglesia || '');
   const [selectedRole, setSelectedRole] = useState<UserRole>(currentUser?.rol || 'seguidor');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const [authErrorMessage, setAuthErrorMessage] = useState<string | null>(null);
 
-  // Trigger Google Login
-  const handleOpenGoogleAuth = () => {
-    setShowGoogleModal(true);
+  // Trigger Google Login via Firebase OAuth Popup
+  const handleOpenGoogleAuth = async () => {
+    setAuthErrorMessage(null);
+    if (onLoginWithFirebaseGoogle) {
+      try {
+        setIsGoogleLoading(true);
+        await onLoginWithFirebaseGoogle();
+      } catch (err: any) {
+        console.warn('Firebase Google Auth error / popup blocked:', err);
+        // Show fallback modal with account options
+        setShowGoogleModal(true);
+        if (err?.message) {
+          setAuthErrorMessage(err.message);
+        }
+      } finally {
+        setIsGoogleLoading(false);
+      }
+    } else {
+      setShowGoogleModal(true);
+    }
   };
 
   const handleConfirmGoogleLogin = (email: string, name: string) => {
@@ -147,16 +168,27 @@ export const PerfilView: React.FC<PerfilViewProps> = ({
         <button
           type="button"
           onClick={handleOpenGoogleAuth}
-          className="w-full py-3.5 px-4 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/80 text-slate-800 dark:text-slate-100 font-bold text-sm flex items-center justify-center gap-3 shadow-xs hover:shadow-md transition-all active:scale-98"
+          disabled={isGoogleLoading}
+          className="w-full py-3.5 px-4 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/80 text-slate-800 dark:text-slate-100 font-bold text-sm flex items-center justify-center gap-3 shadow-xs hover:shadow-md transition-all active:scale-98 disabled:opacity-60"
         >
-          <img
-            src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-            width="20"
-            height="20"
-            alt="Google"
-          />
-          <span>Continuar con Google</span>
+          {isGoogleLoading ? (
+            <span className="w-5 h-5 border-2 border-[#0e9594] border-t-transparent rounded-full animate-spin" />
+          ) : (
+            <img
+              src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+              width="20"
+              height="20"
+              alt="Google"
+            />
+          )}
+          <span>{isGoogleLoading ? 'Iniciando sesión con Google...' : 'Continuar con Google'}</span>
         </button>
+
+        {authErrorMessage && (
+          <p className="text-xs text-amber-500 bg-amber-500/10 p-2.5 rounded-xl border border-amber-500/20 text-left">
+            ℹ️ {authErrorMessage}
+          </p>
+        )}
 
         <p className="text-[11px] text-slate-400 dark:text-slate-500 pt-2">
           Sin contraseñas. Tu sesión queda protegida directamente por Google y Firebase Authentication.

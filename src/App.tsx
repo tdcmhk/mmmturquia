@@ -23,6 +23,19 @@ import { StreamingView } from './components/StreamingView';
 import { AdminPanel } from './components/AdminPanel';
 import { PastoralChatWidget } from './components/PastoralChatWidget';
 import { Footer } from './components/Footer';
+import { onAuthStateChanged } from 'firebase/auth';
+import {
+  auth,
+  loginWithGoogleFirebase,
+  logoutFirebase,
+  syncUserFirestore,
+  updateUserProfileFirestore,
+  approveUserRoleFirestore,
+  subscribeToAllUsersFirestore,
+  isPastorAdmin,
+  incrementPrayerCounterFirestore,
+  addBlockCommentFirestore
+} from './firebase';
 
 export default function App() {
   // Navigation & Theme
@@ -161,6 +174,36 @@ export default function App() {
     }
   }, [darkMode]);
 
+  // Firebase Authentication & Firestore User Sync Listener
+  useEffect(() => {
+    const unsubscribeAuth = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        try {
+          const profile = await syncUserFirestore(firebaseUser);
+          setCurrentUser(profile);
+          localStorage.setItem('mmmturquia_current_user', JSON.stringify(profile));
+        } catch (err) {
+          console.warn('Error sincronizando usuario con Firestore:', err);
+        }
+      }
+    });
+
+    return () => unsubscribeAuth();
+  }, []);
+
+  // Sync all users in real-time for Pastor Admin
+  useEffect(() => {
+    if (currentUser?.rol === 'admin' || isPastorAdmin(currentUser?.email)) {
+      const unsubUsers = subscribeToAllUsersFirestore((users) => {
+        if (users && users.length > 0) {
+          setAllUsers(users);
+          localStorage.setItem('mmmturquia_all_users', JSON.stringify(users));
+        }
+      });
+      return () => unsubUsers();
+    }
+  }, [currentUser?.rol, currentUser?.email]);
+
   // Audio stream handler
   const handleToggleRadio = () => {
     if (!audioRef.current) return;
@@ -182,10 +225,18 @@ export default function App() {
     localStorage.setItem('mmmturquia_lang', newLang);
   };
 
-  // Google Login Handler
-  const handleLoginWithGoogle = (email: string, displayName: string) => {
+  // Real Google Sign-in with Firebase Auth
+  const handleLoginWithFirebaseGoogle = async () => {
+    const user = await loginWithGoogleFirebase();
+    const profile = await syncUserFirestore(user);
+    setCurrentUser(profile);
+    localStorage.setItem('mmmturquia_current_user', JSON.stringify(profile));
+  };
+
+  // Google Login Handler (supports quick account selection & fallback)
+  const handleLoginWithGoogle = async (email: string, displayName: string) => {
     const cleanEmail = email.toLowerCase().trim();
-    const isPastor = cleanEmail === 'rvicentetapia@gmail.com';
+    const isPastor = isPastorAdmin(cleanEmail);
 
     // Check if user already exists
     const existing = allUsers.find((u) => u.email.toLowerCase() === cleanEmail);
@@ -195,19 +246,24 @@ export default function App() {
         : existing;
       setCurrentUser(activeUser);
       localStorage.setItem('mmmturquia_current_user', JSON.stringify(activeUser));
+      try {
+        await updateUserProfileFirestore(activeUser.uid, activeUser, isPastor);
+      } catch (e) {
+        console.warn('Firestore sync note:', e);
+      }
       return;
     }
 
     // New user with Google
     const newUser: UserProfile = {
-      uid: 'user-' + Date.now(),
+      uid: 'user-' + (cleanEmail === 'rvicentetapia@gmail.com' ? 'pastor-admin' : Date.now()),
       nombre: displayName || (isPastor ? 'Pastor Ricardo Vicente Tapia' : 'Usuario'),
       email: cleanEmail,
       whatsapp: '',
       pais: '',
       iglesia: '',
       rol: (isPastor ? 'admin' : 'seguidor') as UserRole,
-      aprobado: true,
+      aprobado: isPastor ? true : false,
       fechaRegistro: new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
     };
 
@@ -219,10 +275,16 @@ export default function App() {
       localStorage.setItem('mmmturquia_all_users', JSON.stringify(updated));
       return updated;
     });
+
+    try {
+      await updateUserProfileFirestore(newUser.uid, newUser, isPastor);
+    } catch (e) {
+      console.warn('Firestore sync note:', e);
+    }
   };
 
-  // Update current user
-  const handleUpdateUser = (updated: UserProfile) => {
+  // Update current user and persist in Firestore
+  const handleUpdateUser = async (updated: UserProfile) => {
     setCurrentUser(updated);
     localStorage.setItem('mmmturquia_current_user', JSON.stringify(updated));
 
@@ -234,10 +296,16 @@ export default function App() {
       localStorage.setItem('mmmturquia_all_users', JSON.stringify(list));
       return list;
     });
+
+    try {
+      await updateUserProfileFirestore(updated.uid, updated, currentUser?.rol === 'admin' || isPastorAdmin(currentUser?.email));
+    } catch (err) {
+      console.warn('Error actualizando perfil en Firestore:', err);
+    }
   };
 
-  // Pastoral 1-click approval
-  const handleApproveUser = (uid: string, targetRole: UserRole, state: boolean) => {
+  // Pastoral 1-click approval in Firestore
+  const handleApproveUser = async (uid: string, targetRole: UserRole, state: boolean) => {
     setAllUsers((prev) => {
       const uList = prev.map((u) => {
         if (u.uid === uid) {
@@ -253,6 +321,12 @@ export default function App() {
       const updated = { ...currentUser, rol: targetRole, aprobado: state };
       setCurrentUser(updated);
       localStorage.setItem('mmmturquia_current_user', JSON.stringify(updated));
+    }
+
+    try {
+      await approveUserRoleFirestore(uid, targetRole, state);
+    } catch (err) {
+      console.warn('Error aprobando usuario en Firestore:', err);
     }
   };
 
@@ -279,6 +353,9 @@ export default function App() {
       localStorage.setItem('mmmturquia_blocks', JSON.stringify(updated));
       return updated;
     });
+
+    // Firestore counter sync (/contadores_bloques/{bloqueId})
+    incrementPrayerCounterFirestore(blockId);
   };
 
   const handleToggleSaveBlock = (block: PrayerBlock) => {
@@ -317,12 +394,13 @@ export default function App() {
   };
 
   const handleAddCommentToBlock = (blockId: string, text: string) => {
+    const authorName = `${currentUser?.nombre || 'Intercesor'} (${(currentUser?.rol || 'SEGUIDOR').toUpperCase()})`;
     setBlocks((prev) => {
       const updated = prev.map((b) => {
         if (b.id === blockId) {
           const newComment = {
             id: `comm-${Date.now()}`,
-            author: `${currentUser?.nombre || 'Intercesor'} (${(currentUser?.rol || 'SEGUIDOR').toUpperCase()})`,
+            author: authorName,
             text,
             date: 'Ahora mismo'
           };
@@ -333,6 +411,9 @@ export default function App() {
       localStorage.setItem('mmmturquia_blocks', JSON.stringify(updated));
       return updated;
     });
+
+    // Firestore comments sync (/comentarios_bloques)
+    addBlockCommentFirestore(blockId, authorName, text);
   };
 
   const handleIncrementWeeklyPrayers = () => {
@@ -484,7 +565,12 @@ export default function App() {
     });
   };
 
-  const handleLogout = (redirectTab?: NavTab) => {
+  const handleLogout = async (redirectTab?: NavTab) => {
+    try {
+      await logoutFirebase();
+    } catch (err) {
+      console.warn('Firebase logout notice:', err);
+    }
     setCurrentUser(null);
     localStorage.removeItem('mmmturquia_current_user');
     if (redirectTab) {
@@ -614,6 +700,7 @@ export default function App() {
             savedEntriesCount={savedEntriesCount}
             onNavigateTab={setCurrentTab}
             onLoginWithGoogle={handleLoginWithGoogle}
+            onLoginWithFirebaseGoogle={handleLoginWithFirebaseGoogle}
             onUpdateUser={handleUpdateUser}
             onLogout={handleLogout}
           />

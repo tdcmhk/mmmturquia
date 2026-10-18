@@ -1,0 +1,51 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Reconoce únicamente tu correo como Administrador General
+    function esAdmin() {
+      return request.auth != null && request.auth.token.email == "rvicentetapia@gmail.com";
+    }
+
+    // Verifica en el servidor si el intercesor tiene aprobado == true
+    function estaAprobado() {
+      return request.auth != null && 
+             get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.aprobado == true;
+    }
+
+    // 1. Usuarios: cada uno lee su ficha, pero tú (Admin) puedes ver y aprobar a todos
+    match /usuarios/{userId} {
+      allow read, create: if request.auth != null && request.auth.uid == userId;
+      allow update: if (request.auth != null && request.auth.uid == userId && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['aprobado'])) || esAdmin();
+      allow read, write, delete: if esAdmin();
+    }
+
+    // 2. Bóveda del Boletín: SOLO usuarios aprobados lo leen, y SOLO TÚ lo editas
+    match /boletin_bloques/{bloqueId} {
+      allow read: if estaAprobado() || esAdmin();
+      allow write: if esAdmin();
+    }
+
+    // Bóveda de Ediciones Semanales / Mensuales del Boletín
+    match /ediciones_boletin/{edicionId} {
+      allow read: if estaAprobado() || esAdmin();
+      allow write: if esAdmin();
+    }
+    match /configuracion_global/{docId} {
+      allow read: if estaAprobado() || esAdmin();
+      allow write: if esAdmin();
+    }
+
+    // 3. Contadores de oración por bloque
+    match /contadores_bloques/{bloqueId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Comentarios en los bloques del boletín
+    match /comentarios_bloques/{comentarioId} {
+      allow read: if estaAprobado() || esAdmin();
+      allow create: if estaAprobado() || esAdmin();
+      allow delete: if esAdmin(); // Solo tú puedes borrar comentarios indebidos
+    }
+  }
+}

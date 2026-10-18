@@ -1,0 +1,79 @@
+{
+  "entities": {
+    "Usuario": {
+      "title": "Usuario",
+      "description": "Perfil de intercesor, patrocinador o administrador en la plataforma",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "nombre": { "type": "string" },
+        "apellido": { "type": "string" },
+        "email": { "type": "string" },
+        "whatsapp": { "type": "string" },
+        "pais": { "type": "string" },
+        "iglesia": { "type": "string" },
+        "rol": { "type": "string", "enum": ["seguidor", "intercesor", "patrocinador", "admin"] },
+        "aprobado": { "type": "boolean" },
+        "solicitud": { "type": "string", "enum": ["seguidor", "intercesor", "patrocinador", "admin"] },
+        "fechaRegistro": { "type": "string" }
+      },
+      "required": ["uid", "email", "rol", "aprobado"]
+    },
+    "BoletinBloque": {
+      "title": "BoletinBloque",
+      "description": "Bloque oficial de intercesión y oración misionera por Turquía",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "number": { "type": "number" },
+        "title": { "type": "string" },
+        "scriptureRef": { "type": "string" },
+        "scriptureText": { "type": "string" },
+        "context": { "type": "string" },
+        "challenge": { "type": "string" }
+      },
+      "required": ["id", "number", "title"]
+    },
+    "ContadorBloque": {
+      "title": "ContadorBloque",
+      "description": "Contador de oraciones elevadas por bloque",
+      "type": "object",
+      "properties": {
+        "bloqueId": { "type": "string" },
+        "count": { "type": "number" }
+      },
+      "required": ["bloqueId", "count"]
+    },
+    "ComentarioBloque": {
+      "title": "ComentarioBloque",
+      "description": "Comentario de intercesión en un bloque del boletín",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "bloqueId": { "type": "string" },
+        "author": { "type": "string" },
+        "text": { "type": "string" },
+        "date": { "type": "string" }
+      },
+      "required": ["id", "bloqueId", "author", "text"]
+    }
+  },
+  "firestore": {
+    "/usuarios/{userId}": {
+      "schema": { "$ref": "#/entities/Usuario" },
+      "description": "Colección de perfiles de usuarios e intercesores con control de aprobación"
+    },
+    "/boletin_bloques/{bloqueId}": {
+      "schema": { "$ref": "#/entities/BoletinBloque" },
+      "description": "Bóveda de bloques de intercesión leídos por usuarios aprobados y editados por admin"
+    },
+    "/contadores_bloques/{bloqueId}": {
+      "schema": { "$ref": "#/entities/ContadorBloque" },
+      "description": "Contadores de oraciones por bloque abiertas a usuarios autenticados"
+    },
+    "/comentarios_bloques/{comentarioId}": {
+      "schema": { "$ref": "#/entities/ComentarioBloque" },
+      "description": "Comentarios de bendición en los bloques de oración"
+    }
+  }
+}
