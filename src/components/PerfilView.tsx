@@ -7,6 +7,7 @@ interface PerfilViewProps {
   savedEntriesCount: number;
   onNavigateTab: (tab: NavTab) => void;
   onLoginWithGoogle: () => Promise<void>;
+  onQuickLoginPastor?: () => void;
   onRegisterUser: (datos: {
     nombre: string;
     apellido: string;
@@ -25,6 +26,7 @@ export const PerfilView: React.FC<PerfilViewProps> = ({
   savedEntriesCount,
   onNavigateTab,
   onLoginWithGoogle,
+  onQuickLoginPastor,
   onRegisterUser,
   onUpdateUser,
   onLogout
@@ -158,6 +160,34 @@ export const PerfilView: React.FC<PerfilViewProps> = ({
             <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
               Acceso exclusivo para intercesores de la obra en Turquía. Ingresa o regístrate con tu cuenta de Google:
             </p>
+          </div>
+
+          {/* ACCESO RÁPIDO 1-CLIC PARA EL PASTOR ADMINISTRADOR */}
+          {onQuickLoginPastor && (
+            <button
+              type="button"
+              onClick={onQuickLoginPastor}
+              className="w-full p-3.5 rounded-xl bg-gradient-to-r from-purple-900/70 via-[#1a365d] to-[#0e9594] border border-purple-400/50 hover:border-purple-300 text-white font-bold text-xs sm:text-sm flex items-center justify-between shadow-lg hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer group"
+            >
+              <div className="flex items-center gap-3 text-left">
+                <div className="w-9 h-9 rounded-full bg-purple-600 text-white font-black text-xs flex items-center justify-center shrink-0 shadow-sm border border-purple-300/40">
+                  PR
+                </div>
+                <div>
+                  <div className="font-bold text-white text-xs sm:text-sm">Acceso Directo Pastor Administrador</div>
+                  <div className="text-[11px] text-purple-200">rvicentetapia@gmail.com (1 Clic • Sin contraseñas)</div>
+                </div>
+              </div>
+              <span className="material-symbols-outlined text-[20px] text-purple-200 group-hover:translate-x-1 transition-transform">
+                arrow_forward
+              </span>
+            </button>
+          )}
+
+          <div className="flex items-center gap-2 my-2">
+            <div className="h-px bg-slate-200 dark:bg-slate-800 flex-1" />
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">o ingresar con cuenta Google</span>
+            <div className="h-px bg-slate-200 dark:bg-slate-800 flex-1" />
           </div>
 
           {/* BOTÓN OFICIAL DE GOOGLE */}

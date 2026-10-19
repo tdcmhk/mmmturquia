@@ -627,6 +627,23 @@ export default function App() {
     // If on perfil, stays on perfil so the Google Login screen is shown immediately
   };
 
+  const handleQuickLoginPastor = () => {
+    const pastorProfile: UserProfile = {
+      uid: 'user-pastor-admin',
+      nombre: 'Pastor Ricardo',
+      apellido: 'Vicente Tapia',
+      email: 'rvicentetapia@gmail.com',
+      whatsapp: '+51 938 204 456',
+      pais: 'Turquía',
+      iglesia: 'MMM Estambul',
+      rol: 'admin',
+      aprobado: true,
+      fechaRegistro: '01 Ene 2026'
+    };
+    setCurrentUser(pastorProfile);
+    localStorage.setItem('mmmturquia_current_user', JSON.stringify(pastorProfile));
+  };
+
   const prayedBlocksCount = blocks.filter((b) => b.hasPrayed).length;
   const savedEntriesCount = diaryEntries.length;
 
@@ -746,6 +763,7 @@ export default function App() {
             savedEntriesCount={savedEntriesCount}
             onNavigateTab={setCurrentTab}
             onLoginWithGoogle={handleLoginWithGoogle}
+            onQuickLoginPastor={handleQuickLoginPastor}
             onRegisterUser={handleRegisterUser}
             onUpdateUser={handleUpdateUser}
             onLogout={handleLogout}
