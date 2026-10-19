@@ -35,6 +35,7 @@ import {
   subscribeToAllUsersFirestore,
   approveUserRoleFirestore,
   isPastorAdmin,
+  ensurePastorAdminProfile,
   toggleOrarBloqueFirestore,
   addBlockCommentFirestore
 } from './firebase';
@@ -188,27 +189,36 @@ export default function App() {
       const cleanEmail = (firebaseUser.email || '').toLowerCase().trim();
       const isPastor = isPastorAdmin(cleanEmail);
 
+      // Si es el Pastor Administrador, identificarlo automáticamente con rol admin y aprobado
+      if (isPastor) {
+        try {
+          const pastorProfile = await ensurePastorAdminProfile(firebaseUser);
+          setCurrentUser(pastorProfile);
+          localStorage.setItem('mmmturquia_current_user', JSON.stringify(pastorProfile));
+          return;
+        } catch (e) {
+          console.warn('Error asegurando perfil pastoral:', e);
+        }
+      }
+
       try {
         const existingProfile = await getUserFirestoreProfile(firebaseUser.uid);
         if (existingProfile) {
-          const finalProfile = isPastor
-            ? { ...existingProfile, rol: 'admin' as UserRole, aprobado: true }
-            : existingProfile;
-          setCurrentUser(finalProfile);
-          localStorage.setItem('mmmturquia_current_user', JSON.stringify(finalProfile));
+          setCurrentUser(existingProfile);
+          localStorage.setItem('mmmturquia_current_user', JSON.stringify(existingProfile));
         } else {
-          // Primera vez que ingresa con Google: preparar ficha para formulario de registro
+          // Primera vez que ingresa un intercesor con Google: preparar ficha para formulario de registro
           const parts = (firebaseUser.displayName || '').split(' ');
           const draftProfile: UserProfile = {
             uid: firebaseUser.uid,
-            nombre: parts[0] || (isPastor ? 'Pastor Ricardo' : 'Hermano'),
-            apellido: parts.slice(1).join(' ') || (isPastor ? 'Vicente Tapia' : ''),
+            nombre: parts[0] || 'Hermano',
+            apellido: parts.slice(1).join(' ') || '',
             email: cleanEmail,
             whatsapp: '',
             pais: '',
             iglesia: '',
-            rol: (isPastor ? 'admin' : 'intercesor') as UserRole,
-            aprobado: isPastor ? true : false,
+            rol: 'intercesor',
+            aprobado: false,
             fechaRegistro: new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
           };
           setCurrentUser(draftProfile);
@@ -274,26 +284,33 @@ export default function App() {
   // Google Login Trigger (abre el popup de Google en Firebase)
   const handleLoginWithGoogle = async () => {
     const user = await loginWithGoogleFirebase();
-    const existing = await getUserFirestoreProfile(user.uid);
     const cleanEmail = (user.email || '').toLowerCase().trim();
     const isPastor = isPastorAdmin(cleanEmail);
 
+    // Si es el Pastor Administrador, asignarle rol de admin directamente
+    if (isPastor) {
+      const pastorProfile = await ensurePastorAdminProfile(user);
+      setCurrentUser(pastorProfile);
+      localStorage.setItem('mmmturquia_current_user', JSON.stringify(pastorProfile));
+      return;
+    }
+
+    const existing = await getUserFirestoreProfile(user.uid);
     if (existing) {
-      const activeUser = isPastor ? { ...existing, rol: 'admin' as UserRole, aprobado: true } : existing;
-      setCurrentUser(activeUser);
-      localStorage.setItem('mmmturquia_current_user', JSON.stringify(activeUser));
+      setCurrentUser(existing);
+      localStorage.setItem('mmmturquia_current_user', JSON.stringify(existing));
     } else {
       const parts = (user.displayName || '').split(' ');
       const draft: UserProfile = {
         uid: user.uid,
-        nombre: parts[0] || (isPastor ? 'Pastor Ricardo' : 'Hermano'),
-        apellido: parts.slice(1).join(' ') || (isPastor ? 'Vicente Tapia' : ''),
+        nombre: parts[0] || 'Hermano',
+        apellido: parts.slice(1).join(' ') || '',
         email: cleanEmail,
         whatsapp: '',
         pais: '',
         iglesia: '',
-        rol: (isPastor ? 'admin' : 'intercesor') as UserRole,
-        aprobado: isPastor ? true : false,
+        rol: 'intercesor',
+        aprobado: false,
         fechaRegistro: new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
       };
       setCurrentUser(draft);
@@ -627,23 +644,6 @@ export default function App() {
     // If on perfil, stays on perfil so the Google Login screen is shown immediately
   };
 
-  const handleQuickLoginPastor = () => {
-    const pastorProfile: UserProfile = {
-      uid: 'user-pastor-admin',
-      nombre: 'Pastor Ricardo',
-      apellido: 'Vicente Tapia',
-      email: 'rvicentetapia@gmail.com',
-      whatsapp: '+51 938 204 456',
-      pais: 'Turquía',
-      iglesia: 'MMM Estambul',
-      rol: 'admin',
-      aprobado: true,
-      fechaRegistro: '01 Ene 2026'
-    };
-    setCurrentUser(pastorProfile);
-    localStorage.setItem('mmmturquia_current_user', JSON.stringify(pastorProfile));
-  };
-
   const prayedBlocksCount = blocks.filter((b) => b.hasPrayed).length;
   const savedEntriesCount = diaryEntries.length;
 
@@ -763,7 +763,6 @@ export default function App() {
             savedEntriesCount={savedEntriesCount}
             onNavigateTab={setCurrentTab}
             onLoginWithGoogle={handleLoginWithGoogle}
-            onQuickLoginPastor={handleQuickLoginPastor}
             onRegisterUser={handleRegisterUser}
             onUpdateUser={handleUpdateUser}
             onLogout={handleLogout}

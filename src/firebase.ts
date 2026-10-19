@@ -43,7 +43,6 @@ const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
-googleProvider.setCustomParameters({ prompt: 'select_account' });
 
 // Procesar retorno de Google Auth en navegadores móviles si usó redirección
 getRedirectResult(auth).catch(() => {});
@@ -58,6 +57,45 @@ export const ADMIN_EMAIL = 'rvicentetapia@gmail.com';
 export function isPastorAdmin(email?: string | null): boolean {
   if (!email) return false;
   return email.toLowerCase().trim() === ADMIN_EMAIL.toLowerCase();
+}
+
+/**
+ * Asegurar perfil automático del Pastor Administrador sin formularios de registro
+ */
+export async function ensurePastorAdminProfile(user: User): Promise<UserProfile> {
+  const userRef = doc(db, 'usuarios', user.uid);
+  const snap = await getDoc(userRef);
+
+  if (snap.exists()) {
+    const data = snap.data() as UserProfile;
+    if (data.rol !== 'admin' || !data.aprobado) {
+      await updateDoc(userRef, { rol: 'admin', aprobado: true });
+      return { ...data, rol: 'admin', aprobado: true };
+    }
+    return data;
+  }
+
+  const pastorData: UserProfile = {
+    uid: user.uid,
+    nombre: user.displayName?.split(' ')[0] || 'Pastor Ricardo',
+    apellido: user.displayName?.split(' ').slice(1).join(' ') || 'Vicente Tapia',
+    email: ADMIN_EMAIL,
+    whatsapp: '+51 938 204 456',
+    pais: 'Turquía',
+    iglesia: 'MMM Estambul',
+    rol: 'admin',
+    aprobado: true,
+    fechaRegistro: new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
+  };
+
+  await setDoc(userRef, {
+    ...pastorData,
+    foto: user.photoURL || '',
+    aprobado: true,
+    fechaRegistro: new Date()
+  });
+
+  return pastorData;
 }
 
 /**
