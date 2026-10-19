@@ -26,14 +26,16 @@ import {
 } from 'firebase/firestore';
 import { UserProfile, UserRole } from './types';
 
-// Configuración oficial de Firebase del proyecto del usuario
+// Configuración oficial de Firebase del proyecto del usuario (rvicentetapia@gmail.com)
 export const firebaseConfig = {
   apiKey: "AIzaSyBeuFR_MvuAWKan95TEhKvyap51n189tcM",
   authDomain: "intranet-movilizacion-turquia.firebaseapp.com",
+  databaseURL: "https://intranet-movilizacion-turquia-default-rtdb.firebaseio.com",
   projectId: "intranet-movilizacion-turquia",
   storageBucket: "intranet-movilizacion-turquia.firebasestorage.app",
   messagingSenderId: "633633525264",
-  appId: "1:633633525264:web:93010e98058338f3580495"
+  appId: "1:633633525264:web:93010e98058338f3580495",
+  measurementId: "G-YGP7LN395C"
 };
 
 // Inicialización de la app
@@ -42,6 +44,10 @@ const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: 'select_account' });
+
+// Procesar retorno de Google Auth en navegadores móviles si usó redirección
+getRedirectResult(auth).catch(() => {});
+
 export { onAuthStateChanged };
 export type { User };
 
@@ -256,5 +262,24 @@ export async function addBlockCommentFirestore(
     texto,
     fecha: new Date(),
     fechaTexto: new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
+  });
+}
+
+/**
+ * Escuchar comentarios de un bloque en tiempo real (/comentarios_bloques)
+ */
+export function listenBlockCommentsFirestore(bloqueId: string, callback: (comments: any[]) => void) {
+  const q = query(
+    collection(db, "comentarios_bloques"),
+    where("bloqueId", "==", bloqueId)
+  );
+  return onSnapshot(q, (snapshot) => {
+    const list: any[] = [];
+    snapshot.forEach((d) => {
+      list.push(d.data());
+    });
+    callback(list);
+  }, (err) => {
+    console.warn("Aviso comentarios bloque Firestore:", err);
   });
 }

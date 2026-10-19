@@ -1,12 +1,10 @@
 {
-  "projectId": "evocative-radio-q5p7n",
-  "appId": "1:423440866105:web:f272ab7d4519be9a46a6e8",
-  "apiKey": "AIzaSyA6kUu6ihMf43i21Lx6LCuVnf92nm6Ol5Y",
-  "authDomain": "evocative-radio-q5p7n.firebaseapp.com",
-  "firestoreDatabaseId": "ai-studio-intranetmisioner-2fbc9d14-b599-4173-a792-901b2ca67994",
-  "storageBucket": "evocative-radio-q5p7n.firebasestorage.app",
-  "messagingSenderId": "423440866105",
-  "measurementId": "",
-  "oAuthClientId": "423440866105-g8cf6fjeusm3g9ijk7a03cf2uv7ojgq1.apps.googleusercontent.com",
-  "recaptchaSiteKey": ""
+  "projectId": "intranet-movilizacion-turquia",
+  "appId": "1:633633525264:web:93010e98058338f3580495",
+  "apiKey": "AIzaSyBeuFR_MvuAWKan95TEhKvyap51n189tcM",
+  "authDomain": "intranet-movilizacion-turquia.firebaseapp.com",
+  "databaseURL": "https://intranet-movilizacion-turquia-default-rtdb.firebaseio.com",
+  "storageBucket": "intranet-movilizacion-turquia.firebasestorage.app",
+  "messagingSenderId": "633633525264",
+  "measurementId": "G-YGP7LN395C"
 }
