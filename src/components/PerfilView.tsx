@@ -39,7 +39,7 @@ export const PerfilView: React.FC<PerfilViewProps> = ({
   const [regTelefono, setRegTelefono] = useState('');
   const [regPais, setRegPais] = useState('');
   const [regIglesia, setRegIglesia] = useState('');
-  const [regRol, setRegRol] = useState<UserRole>('intercesor');
+  const [regRol, setRegRol] = useState<UserRole>('seguidor');
   const [isSubmittingReg, setIsSubmittingReg] = useState(false);
 
   // Formulario de edición de perfil (Vista 4)
@@ -281,26 +281,10 @@ export const PerfilView: React.FC<PerfilViewProps> = ({
               <div className="grid grid-cols-2 gap-2">
                 <button
                   type="button"
-                  onClick={() => setRegRol('intercesor')}
-                  className={`p-2.5 rounded-xl border text-left transition-all ${
-                    regRol === 'intercesor'
-                      ? 'border-[#0e9594] bg-[#0e9594]/10 dark:bg-[#0e9594]/20 text-[#0e9594] dark:text-[#38bdf8] font-bold'
-                      : 'border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400'
-                  }`}
-                >
-                  <div className="text-xs font-bold flex items-center gap-1.5">
-                    <span className="material-symbols-outlined text-[16px]">volunteer_activism</span>
-                    Intercesor
-                  </div>
-                  <div className="text-[10px] opacity-80 mt-0.5 leading-tight">Clamor y Boletín Confidencial</div>
-                </button>
-
-                <button
-                  type="button"
                   onClick={() => setRegRol('seguidor')}
                   className={`p-2.5 rounded-xl border text-left transition-all ${
                     regRol === 'seguidor'
-                      ? 'border-[#0e9594] bg-[#0e9594]/10 dark:bg-[#0e9594]/20 text-[#0e9594] dark:text-[#38bdf8] font-bold'
+                      ? 'border-[#0e9594] bg-[#0e9594]/10 dark:bg-[#0e9594]/20 text-[#0e9594] dark:text-[#38bdf8] font-bold ring-2 ring-[#0e9594]/20'
                       : 'border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400'
                   }`}
                 >
@@ -309,6 +293,22 @@ export const PerfilView: React.FC<PerfilViewProps> = ({
                     Seguidor
                   </div>
                   <div className="text-[10px] opacity-80 mt-0.5 leading-tight">Acceso Rápido y Radio 24/7</div>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setRegRol('intercesor')}
+                  className={`p-2.5 rounded-xl border text-left transition-all ${
+                    regRol === 'intercesor'
+                      ? 'border-[#0e9594] bg-[#0e9594]/10 dark:bg-[#0e9594]/20 text-[#0e9594] dark:text-[#38bdf8] font-bold ring-2 ring-[#0e9594]/20'
+                      : 'border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400'
+                  }`}
+                >
+                  <div className="text-xs font-bold flex items-center gap-1.5">
+                    <span className="material-symbols-outlined text-[16px]">volunteer_activism</span>
+                    Intercesor
+                  </div>
+                  <div className="text-[10px] opacity-80 mt-0.5 leading-tight">Clamor y Boletín Confidencial</div>
                 </button>
               </div>
             </div>

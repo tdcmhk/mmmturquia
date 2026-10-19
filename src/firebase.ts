@@ -135,6 +135,19 @@ export async function getUserFirestoreProfile(uid: string): Promise<UserProfile 
 }
 
 /**
+ * Limpia cualquier campo con valor undefined antes de enviar a Firestore
+ */
+function sanitizeFirestoreData<T extends Record<string, any>>(obj: T): Record<string, any> {
+  const result: Record<string, any> = {};
+  for (const [key, value] of Object.entries(obj)) {
+    if (value !== undefined) {
+      result[key] = value;
+    }
+  }
+  return result;
+}
+
+/**
  * Guardar ficha de registro inicial y enviar aviso FormSubmit a rvicentetapia@gmail.com
  */
 export async function registerUserProfileFirestore(
@@ -164,17 +177,22 @@ export async function registerUserProfileFirestore(
     iglesia: datos.iglesia.trim(),
     rol: isAdmin ? 'admin' : datos.rol,
     aprobado: isApproved,
-    solicitud: isApproved ? undefined : 'intercesor',
     fechaRegistro: new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })
   };
 
-  // Guardar en colección usuarios
-  await setDoc(doc(db, 'usuarios', user.uid), {
+  if (!isApproved) {
+    perfil.solicitud = 'intercesor';
+  }
+
+  // Guardar en colección usuarios limpiando campos undefined
+  const firestorePayload = sanitizeFirestoreData({
     ...perfil,
     foto: user.photoURL || '',
     aprobado: isApproved,
     fechaRegistro: new Date()
   });
+
+  await setDoc(doc(db, 'usuarios', user.uid), firestorePayload);
 
   // Notificación automática al pastor si es intercesor en espera
   if (!isApproved) {
@@ -210,7 +228,7 @@ export async function registerUserProfileFirestore(
  */
 export async function updateProfileInFirestore(uid: string, datos: Partial<UserProfile>): Promise<void> {
   const userRef = doc(db, 'usuarios', uid);
-  const payload = { ...datos };
+  const payload = sanitizeFirestoreData({ ...datos });
   delete (payload as any).uid;
   // Solo admin puede modificar 'aprobado' directamente
   await updateDoc(userRef, payload);
