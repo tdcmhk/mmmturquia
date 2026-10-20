@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { NavTab, Language, UserRole } from '../types';
 import { translations } from '../data/i18n';
 
@@ -16,6 +16,13 @@ interface NavbarProps {
   onToggleRadio: () => void;
 }
 
+const LANGUAGES: { code: Language; label: string }[] = [
+  { code: 'es', label: 'Español' },
+  { code: 'tr', label: 'Türkçe' },
+  { code: 'en', label: 'English' },
+  { code: 'it', label: 'Italiano' }
+];
+
 export const Navbar: React.FC<NavbarProps> = ({
   currentTab,
   onTabChange,
@@ -30,7 +37,20 @@ export const Navbar: React.FC<NavbarProps> = ({
   onToggleRadio
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [langDropdownOpen, setLangDropdownOpen] = useState(false);
+  const langMenuRef = useRef<HTMLDivElement>(null);
   const t = translations[lang] || translations.es;
+
+  // Cerrar el menú de idiomas si el usuario hace clic afuera
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (langMenuRef.current && !langMenuRef.current.contains(event.target as Node)) {
+        setLangDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleTabClick = (tab: NavTab) => {
     onTabChange(tab);
@@ -38,30 +58,28 @@ export const Navbar: React.FC<NavbarProps> = ({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Solo los intercesores aprobados o administradores tienen acceso a la Intranet
   const hasIntranetAccess = isUserApproved && (userRole === 'intercesor' || userRole === 'admin' || userRole === 'patrocinador');
+  const currentLangObj = LANGUAGES.find((l) => l.code === lang) || LANGUAGES[0];
 
   return (
-    <nav className="sticky top-0 z-50 bg-[#070d19]/95 backdrop-blur-md border-b border-slate-800 text-slate-100 shadow-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 gap-3">
+    <nav className="sticky top-0 z-50 bg-[#070d19]/95 backdrop-blur-md border-b border-slate-800 text-slate-100 shadow-md w-full">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 gap-2">
           
-          {/* Brand Logo & Title */}
-          <div className="flex items-center gap-3">
+          {/* Brand Logo & Title (Con min-w-0 para no desbordar en pantallas pequeñas) */}
+          <div className="flex items-center min-w-0">
             <button
               onClick={() => handleTabClick('portal')}
-              className="flex items-center gap-2.5 text-left group focus:outline-hidden"
+              className="flex items-center gap-2 text-left group focus:outline-hidden min-w-0"
             >
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#1e3a8a] to-[#0e9594] flex items-center justify-center text-[#38bdf8] border border-[#38bdf8]/30 shadow-md shadow-[#0e9594]/20 group-hover:scale-105 transition-transform shrink-0">
-                <span className="material-symbols-outlined text-[24px]">church</span>
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-[#1e3a8a] to-[#0e9594] flex items-center justify-center text-[#38bdf8] border border-[#38bdf8]/30 shadow-md shadow-[#0e9594]/20 group-hover:scale-105 transition-transform shrink-0">
+                <span className="material-symbols-outlined text-[22px] sm:text-[24px]">church</span>
               </div>
-              <div className="flex flex-col">
-                <div className="flex items-center gap-1.5">
-                  <span className="font-serif-title text-base sm:text-lg font-bold text-white tracking-wide leading-none">
-                    {t.nav_logo}
-                  </span>
-                </div>
-                <span className="text-[10px] text-[#d4af37] font-semibold tracking-wider leading-tight">
+              <div className="flex flex-col min-w-0">
+                <span className="font-serif-title text-sm sm:text-lg font-bold text-white tracking-wide leading-none truncate">
+                  {t.nav_logo || 'ESPERANZA VIVA'}
+                </span>
+                <span className="text-[9px] sm:text-[10px] text-[#d4af37] font-semibold tracking-wider leading-tight truncate">
                   Misión & Radio 24/7
                 </span>
               </div>
@@ -70,7 +88,6 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Desktop Navigation Links */}
           <div className="hidden lg:flex items-center gap-1 xl:gap-2">
-            {/* Inicio / Portal */}
             <button
               onClick={() => handleTabClick('portal')}
               className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
@@ -83,7 +100,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>{t.nav_portal}</span>
             </button>
 
-            {/* Radio 24/7 - Navegación a la Consola y Estado de Transmisión */}
             <button
               onClick={() => handleTabClick('radio')}
               className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
@@ -103,7 +119,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               )}
             </button>
 
-            {/* Streaming MMM Play (Estilo Prime Video / Netflix) */}
             <button
               onClick={() => handleTabClick('streaming')}
               className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
@@ -120,7 +135,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               </span>
             </button>
 
-            {/* Pestaña PERFIL (Siempre visible para registrarse o ver estado) */}
             <button
               onClick={() => handleTabClick('perfil')}
               className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
@@ -133,7 +147,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>{t.nav_perfil}</span>
             </button>
 
-            {/* SECCIONES DE LA INTRANET PROTEGIDA: SOLO VISIBLES SI ESTÁ APROBADO */}
             {hasIntranetAccess && (
               <>
                 <span className="text-slate-600 px-1">|</span>
@@ -197,7 +210,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               </>
             )}
 
-            {/* Admin pastoral tab */}
             {userRole === 'admin' && (
               <button
                 onClick={() => handleTabClick('admin')}
@@ -211,69 +223,51 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <span>Admin</span>
               </button>
             )}
+
+            {/* En el menú Desktop: */}
+            <button
+              onClick={() => handleTabClick('settings')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
+                currentTab === 'settings'
+                  ? 'bg-[#0e9594] text-white font-bold'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+              }`}
+            >
+              <span className="material-symbols-outlined text-[17px]">settings</span>
+              <span>Ajustes</span>
+            </button>
           </div>
 
-          {/* Right Controls */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            {/* Language Switcher */}
-            <div className="flex items-center bg-slate-800/80 p-0.5 rounded-lg border border-slate-700">
-              {(['es', 'tr', 'en', 'it'] as Language[]).map((l) => (
-                <button
-                  key={l}
-                  onClick={() => onLangChange(l)}
-                  className={`px-2 py-1 text-[11px] font-bold rounded-md uppercase transition-colors ${
-                    lang === l
-                      ? 'bg-[#0e9594] text-white shadow-xs'
-                      : 'text-slate-400 hover:text-white'
-                  }`}
-                  title={`Cambiar a ${l.toUpperCase()}`}
-                >
-                  {l}
-                </button>
-              ))}
-            </div>
+          {/* Right Controls: Compacto con shrink-0 para nunca salirse de pantalla */}
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
 
-            {/* Dark / Light Mode Toggle */}
-            <button
-              onClick={onToggleDarkMode}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-slate-200 text-xs font-semibold transition-all shadow-xs"
-              title={darkMode ? 'Cambiar a Modo Claro' : 'Cambiar a Modo Oscuro'}
-              aria-label="Alternar tema claro y oscuro"
-            >
-              <span className="material-symbols-outlined text-[18px] text-[#fbbf24]">
-                {darkMode ? 'light_mode' : 'dark_mode'}
-              </span>
-              <span className="hidden lg:inline text-[11px]">
-                {darkMode ? 'Oscuro' : 'Claro'}
-              </span>
-            </button>
-
-            {/* Botón CTA Perfil / Intranet */}
+            {/* Botón CTA Perfil / Intranet en Desktop */}
             {hasIntranetAccess ? (
               <button
                 onClick={() => handleTabClick('home')}
-                className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-[#070d19] bg-emerald-400 hover:bg-emerald-300 rounded-lg shadow-sm transition-all"
+                className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-[#070d19] bg-emerald-400 hover:bg-emerald-300 rounded-lg shadow-sm transition-all shrink-0 cursor-pointer"
               >
-                <span className="material-symbols-outlined text-[16px]">lock_open</span>
-                <span>Entrar a Intranet</span>
+                <span className="material-symbols-outlined text-[15px]">lock_open</span>
+                <span>Intranet</span>
               </button>
             ) : (
               <button
                 onClick={() => handleTabClick('perfil')}
-                className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-[#070d19] bg-gradient-to-r from-[#d4af37] to-[#b45309] rounded-lg shadow-sm hover:opacity-95 transition-opacity"
+                className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-[#070d19] bg-gradient-to-r from-[#d4af37] to-[#b45309] rounded-lg shadow-sm hover:opacity-95 transition-opacity shrink-0 cursor-pointer"
               >
-                <span className="material-symbols-outlined text-[16px]">account_circle</span>
+                <span className="material-symbols-outlined text-[15px]">account_circle</span>
                 <span>Mi Perfil</span>
               </button>
             )}
 
-            {/* Mobile Hamburger Toggle */}
+            {/* BOTÓN HAMBURGUESA MÓVIL: Siempre visible con shrink-0 */}
             <button
+              type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-lg text-slate-200 hover:bg-slate-800"
-              aria-label="Abrir menú"
+              className="lg:hidden p-1.5 sm:p-2 rounded-lg text-slate-200 hover:bg-slate-800 border border-slate-700/60 bg-slate-800/40 shrink-0 cursor-pointer focus:outline-hidden"
+              aria-label="Abrir menú de navegación"
             >
-              <span className="material-symbols-outlined text-[24px]">
+              <span className="material-symbols-outlined text-[24px] leading-none block">
                 {mobileMenuOpen ? 'close' : 'menu'}
               </span>
             </button>
@@ -282,9 +276,9 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Menú desplegable Móvil (Mobile Drawer) */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-slate-800 bg-[#070d19] px-4 py-3 space-y-1 shadow-2xl">
+        <div className="lg:hidden border-t border-slate-800 bg-[#070d19]/98 backdrop-blur-lg px-4 py-3 space-y-1 shadow-2xl">
           <button
             onClick={() => handleTabClick('portal')}
             className={`w-full flex items-center gap-2.5 px-3 py-2 text-sm font-semibold rounded-lg ${
@@ -308,7 +302,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>Radio Esperanza 24/7</span>
             </div>
             <span className={`text-xs font-bold ${isPlayingRadio ? 'text-red-400' : 'text-slate-400'}`}>
-              {isPlayingRadio ? '● EN VIVO' : 'Consola Completa'}
+              {isPlayingRadio ? '● EN VIVO' : 'Consola'}
             </span>
           </button>
 
@@ -337,6 +331,16 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             <span className="material-symbols-outlined text-[20px]">account_circle</span>
             <span>Mi Perfil</span>
+          </button>
+
+          <button
+            onClick={() => handleTabClick('settings')}
+            className={`w-full flex items-center gap-2.5 px-3 py-2 text-sm font-semibold rounded-lg ${
+              currentTab === 'settings' ? 'bg-[#0e9594] text-white font-bold' : 'text-slate-200 hover:bg-slate-800'
+            }`}
+          >
+            <span className="material-symbols-outlined text-[20px]">settings</span>
+            <span>Configuración & Idioma</span>
           </button>
 
           {hasIntranetAccess && (
@@ -409,43 +413,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>Panel Admin Pastoral</span>
             </button>
           )}
-
-          {/* Selector de Tema y Lenguaje en Móvil */}
-          <div className="pt-3 mt-2 border-t border-slate-800 space-y-3">
-            <div className="flex items-center justify-between px-1">
-              <span className="text-xs text-slate-400 font-semibold">Tema de la Web:</span>
-              <button
-                type="button"
-                onClick={onToggleDarkMode}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800 text-xs text-white font-semibold shadow-xs"
-              >
-                <span className="material-symbols-outlined text-[17px] text-[#fbbf24]">
-                  {darkMode ? 'light_mode' : 'dark_mode'}
-                </span>
-                <span>{darkMode ? 'Modo Oscuro (Activo)' : 'Modo Claro (Activo)'}</span>
-              </button>
-            </div>
-
-            <div className="flex items-center justify-between px-1">
-              <span className="text-xs text-slate-400 font-semibold">Idioma:</span>
-              <div className="flex items-center bg-slate-800 p-0.5 rounded-lg border border-slate-700">
-                {(['es', 'tr', 'en', 'it'] as Language[]).map((l) => (
-                  <button
-                    key={l}
-                    onClick={() => {
-                      onLangChange(l);
-                      setMobileMenuOpen(false);
-                    }}
-                    className={`px-2.5 py-1 text-xs font-bold rounded-md uppercase transition-colors ${
-                      lang === l ? 'bg-[#0e9594] text-white shadow-xs' : 'text-slate-400 hover:text-white'
-                    }`}
-                  >
-                    {l}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
         </div>
       )}
     </nav>

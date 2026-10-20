@@ -2,7 +2,7 @@ export type Language = 'es' | 'tr' | 'en' | 'it';
 
 export type UserRole = 'seguidor' | 'intercesor' | 'patrocinador' | 'admin';
 
-export type NavTab = 'portal' | 'radio' | 'streaming' | 'home' | 'boletin' | 'diario' | 'expediciones' | 'ramadan' | 'perfil' | 'admin';
+export type NavTab = 'portal' | 'radio' | 'streaming' | 'home' | 'boletin' | 'diario' | 'expediciones' | 'ramadan' | 'perfil' | 'admin'| 'settings';
 
 export interface StreamingVideo {
   id: string;

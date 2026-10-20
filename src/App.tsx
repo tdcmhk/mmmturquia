@@ -39,6 +39,7 @@ import {
   toggleOrarBloqueFirestore,
   addBlockCommentFirestore
 } from './firebase';
+import { ConfiguracionView } from './components/ConfiguracionView';
 
 export default function App() {
   // Navigation & Theme
@@ -648,7 +649,8 @@ export default function App() {
   const savedEntriesCount = diaryEntries.length;
 
   return (
-    <div className={`min-h-screen flex flex-col ${darkMode ? 'bg-[#070d19] text-slate-100' : 'bg-slate-100 text-slate-900'} antialiased selection:bg-[#0e9594]/30 selection:text-white transition-colors duration-200`}>
+
+    <div className={`min-h-screen flex flex-col w-full overflow-x-hidden ${darkMode ? 'bg-[#070d19] text-slate-100' : 'bg-slate-100 text-slate-900'} antialiased selection:bg-[#0e9594]/30 selection:text-white transition-colors duration-200`}>
       {/* Background Audio Stream Player */}
       <audio
         ref={audioRef}
@@ -776,6 +778,16 @@ export default function App() {
             blocks={blocks}
             onApproveUser={handleApproveUser}
             onUpdateBlock={handleUpdateBlock}
+            onNavigateTab={setCurrentTab}
+          />
+        )}
+
+        {currentTab === 'settings' && (
+          <ConfiguracionView
+            lang={lang}
+            onLangChange={handleLangChange}
+            darkMode={darkMode}
+            onToggleDarkMode={() => setDarkMode(!darkMode)}
             onNavigateTab={setCurrentTab}
           />
         )}
