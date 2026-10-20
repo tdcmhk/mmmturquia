@@ -2,9 +2,9 @@ import { Language } from '../types';
 
 export const translations: Record<Language, Record<string, string>> = {
   es: {
-    site_title: 'MMM Turquía — Plataforma & Radio Esperanza 24/7',
+    site_title: 'Puerta de Paz — Plataforma & Radio ',
     nav_portal: 'Inicio / Portal',
-    nav_logo: 'ESPERANZA VIVA',
+    nav_logo: 'PUERTA DE PAZ',
     nav_slogan: 'Inicio / Portal',
     nav_radio: 'Radio 24/7',
     nav_streaming: 'Streaming',
