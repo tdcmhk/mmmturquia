@@ -275,7 +275,7 @@ export const PerfilView: React.FC<PerfilViewProps> = ({
               />
             </div>
 
-            {/* Selección de Rol según Especificación Técnica */}
+            {/* Selección de Rol según Especificación Técnica 
             <div>
               <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">Tipo de Membresía / Compromiso</label>
               <div className="grid grid-cols-2 gap-2">
@@ -311,7 +311,7 @@ export const PerfilView: React.FC<PerfilViewProps> = ({
                   <div className="text-[10px] opacity-80 mt-0.5 leading-tight">Clamor y Boletín Confidencial</div>
                 </button>
               </div>
-            </div>
+            </div>*/}
 
             {errorMsg && (
               <p className="text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/40 p-2.5 rounded-lg border border-red-200 dark:border-red-900">
@@ -329,7 +329,7 @@ export const PerfilView: React.FC<PerfilViewProps> = ({
               ) : (
                 <>
                   <span className="material-symbols-outlined text-[18px]">send</span>
-                  <span>Enviar Solicitud de Acceso</span>
+                  <span>Completar registro</span>
                 </>
               )}
             </button>
@@ -401,6 +401,9 @@ export const PerfilView: React.FC<PerfilViewProps> = ({
   // VISTA 4: PERFIL Y DASHBOARD DEL USUARIO (APROBADO / SEGUIDOR / ADMIN)
   // =========================================================================
   const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.nombre + ' ' + (currentUser.apellido || ''))}&background=1a365d&color=fff&size=128`;
+  // Línea 404 aproximadamente:
+  const isIntercesorAcreditado = (currentUser.rol === 'intercesor' && currentUser.aprobado === true) || isAdmin;
+  const isSeguidor = currentUser.rol === 'seguidor';
 
   return (
     <div className="max-w-2xl mx-auto py-6 sm:py-8 space-y-6">
@@ -560,40 +563,104 @@ export const PerfilView: React.FC<PerfilViewProps> = ({
         )}
       </section>
 
-      {/* BANNER 1: ABRIR MI DIARIO DE ORACIÓN (Diseño de la especificación técnica) */}
-      <button
-        onClick={() => onNavigateTab('diario')}
-        className="w-full p-5 rounded-2xl bg-gradient-to-r from-[#1a365d] to-[#0e9594] text-white flex items-center gap-4 text-left shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer group"
-      >
-        <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0">
-          <span className="material-symbols-outlined text-[32px] text-white">book_4</span>
-        </div>
-        <div className="flex-1">
-          <div className="flex items-center justify-between">
-            <h3 className="font-bold text-base sm:text-lg">Abrir Mi Diario de Oración</h3>
-            <span className="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
-          </div>
-          <p className="text-xs text-white/80 leading-relaxed mt-0.5">
-            Revisa tus oraciones, motivos guardados, testimonios de fe y peticiones personales.
-          </p>
-        </div>
-      </button>
-
-      {/* BANNER 2: IR AL BOLETÍN DE ORACIÓN (Si es Intercesor Aprobado o Admin) */}
-      {(currentUser.aprobado || isAdmin) && (
-        <button
-          onClick={() => onNavigateTab('boletin')}
-          className="w-full p-4 rounded-2xl bg-slate-900 border border-[#38bdf8]/40 hover:border-[#38bdf8] text-white flex items-center justify-between shadow-lg transition-all cursor-pointer"
-        >
-          <div className="flex items-center gap-3">
-            <span className="material-symbols-outlined text-[#38bdf8] text-[24px]">menu_book</span>
-            <div className="text-left">
-              <div className="text-xs font-bold text-white">Ir al Boletín de Oración</div>
-              <div className="text-[11px] text-slate-400">9 Bloques de intercesión por las regiones de Turquía</div>
+      {/* =========================================================================
+          ZONA A: EXCLUSIVO PARA INTERCESORES ACREDITADOS Y PASTOR ADMIN
+          (Solo ellos ven el Diario y el Boletín de 9 Bloques)
+          ========================================================================= */}
+      {isIntercesorAcreditado && (
+        <div className="space-y-4">
+          {/* BANNER 1: ABRIR MI DIARIO DE ORACIÓN */}
+          <button
+            onClick={() => onNavigateTab('diario')}
+            className="w-full p-5 rounded-2xl bg-gradient-to-r from-[#1a365d] to-[#0e9594] text-white flex items-center gap-4 text-left shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer group"
+          >
+            <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0">
+              <span className="material-symbols-outlined text-[32px] text-white">book_4</span>
             </div>
-          </div>
-          <span className="material-symbols-outlined text-slate-400 text-[18px]">chevron_right</span>
-        </button>
+            <div className="flex-1">
+              <div className="flex items-center justify-between">
+                <h3 className="font-bold text-base sm:text-lg">Abrir Mi Diario de Oración</h3>
+                <span className="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+              </div>
+              <p className="text-xs text-white/80 leading-relaxed mt-0.5">
+                Revisa tus oraciones, motivos guardados, testimonios de fe y peticiones personales.
+              </p>
+            </div>
+          </button>
+
+          {/* BANNER 2: IR AL BOLETÍN DE ORACIÓN */}
+          <button
+            onClick={() => onNavigateTab('boletin')}
+            className="w-full p-4 rounded-2xl bg-slate-900 border border-[#38bdf8]/40 hover:border-[#38bdf8] text-white flex items-center justify-between shadow-lg transition-all cursor-pointer"
+          >
+            <div className="flex items-center gap-3">
+              <span className="material-symbols-outlined text-[#38bdf8] text-[24px]">menu_book</span>
+              <div className="text-left">
+                <div className="text-xs font-bold text-white">Ir al Boletín de Oración</div>
+                <div className="text-[11px] text-slate-400">9 Bloques de intercesión por las regiones de Turquía</div>
+              </div>
+            </div>
+            <span className="material-symbols-outlined text-slate-400 text-[18px]">chevron_right</span>
+          </button>
+        </div>
+      )}
+
+      {/* =========================================================================
+          ZONA B: VISTA EXCLUSIVA PARA EL ROL SEGUIDOR
+          (Sin acceso al diario ni al boletín confidencial)
+          ========================================================================= */}
+          
+      {isSeguidor && !isAdmin && (
+        <div className="space-y-4">
+          {/* Banner para la Radio 24/7 */}
+          <button
+            onClick={() => onNavigateTab('radio')}
+            className="w-full p-5 rounded-2xl bg-gradient-to-r from-[#0284c7] to-[#1a365d] text-white flex items-center gap-4 text-left shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer group"
+          >
+            <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0">
+              <span className="material-symbols-outlined text-[32px] text-white">radio</span>
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center justify-between">
+                <h3 className="font-bold text-base sm:text-lg">Sintonizar Radio Esperanza 24/7</h3>
+                <span className="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">play_arrow</span>
+              </div>
+              <p className="text-xs text-white/80 leading-relaxed mt-0.5">
+                Escucha alabanzas en vivo, estudios bíblicos y la fonoteca a la carta para las naciones.
+              </p>
+            </div>
+          </button>
+
+          {/* Tarjeta de Invitación a ser Intercesor 
+          <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-3">
+            <div className="flex items-center gap-2 text-xs font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider">
+              <span className="material-symbols-outlined text-[18px]">lock</span>
+              <span>Zona Protegida de Intercesión</span>
+            </div>
+            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              El <strong>Boletín de Oración con los 9 frentes misioneros confidenciales</strong> y el <strong>Diario Espiritual</strong> son de acceso exclusivo para intercesores acreditados y aprobados por el equipo pastoral.
+            </p>
+            <button
+              type="button"
+              onClick={async () => {
+                if (currentUser) {
+                  // Solicitar cambio a intercesor
+                  const updated: UserProfile = {
+                    ...currentUser,
+                    rol: 'intercesor',
+                    aprobado: false,
+                    solicitud: 'intercesor'
+                  };
+                  await onUpdateUser(updated);
+                }
+              }}
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#0e9594] hover:bg-[#0c7a79] text-white text-xs font-bold shadow-md transition-all cursor-pointer"
+            >
+              <span className="material-symbols-outlined text-[16px]">volunteer_activism</span>
+              <span>Solicitar Acreditación como Intercesor</span>
+            </button>
+          </div>*/}
+        </div>
       )}
 
       {/* BOTÓN ADMIN PASTORAL (Si es el pastor rvicentetapia@gmail.com) */}

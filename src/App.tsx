@@ -334,7 +334,7 @@ export default function App() {
 
     // Si es seguidor, acceso directo a la portada
     if (datos.rol === 'seguidor') {
-      setCurrentTab('portal');
+      setCurrentTab('perfil');
     }
   };
 
