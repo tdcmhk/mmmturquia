@@ -268,7 +268,7 @@ export const DiarioView: React.FC<DiarioViewProps> = ({
             <div>
               <h3 className="font-serif-title text-base sm:text-lg font-bold text-[#1a365d] dark:text-white flex items-center gap-2">
                 <span className="material-symbols-outlined text-[#0e9594]">edit_note</span>
-                Registrar Petición Personal o Motivo Misionero
+                Registrar Petición Personal
               </h3>
               <p className="text-xs text-slate-500 dark:text-slate-400">
                 Podrás hacer seguimiento, marcarla como respondida y añadir comentarios de testimonio.
@@ -293,7 +293,7 @@ export const DiarioView: React.FC<DiarioViewProps> = ({
                 required
                 value={newTitle}
                 onChange={(e) => setNewTitle(e.target.value)}
-                placeholder="Ej: Salud de mi familia y sustento misionero en Turquía"
+                placeholder="Ej: Salud de mi familia y sustento en Turquía"
                 className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-hidden focus:border-[#0e9594]"
               />
             </div>

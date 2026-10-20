@@ -230,7 +230,7 @@ export const StreamingView: React.FC<StreamingViewProps> = ({ onNavigateTab }) =
           <div className="flex items-center gap-2">
             <div className="w-2.5 h-6 rounded-full bg-[#0e9594]" />
             <h2 className="text-xl sm:text-2xl font-bold text-white tracking-wide">
-              Videos Oficiales & Cabeceras Misioneras
+              Videos Oficiales & Cabeceras
             </h2>
             <span className="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 font-semibold border border-slate-700">
               WebM Video Clips
@@ -418,7 +418,7 @@ export const StreamingView: React.FC<StreamingViewProps> = ({ onNavigateTab }) =
           <div className="flex items-center gap-2">
             <div className="w-2.5 h-6 rounded-full bg-[#38bdf8]" />
             <h2 className="text-xl sm:text-2xl font-bold text-white tracking-wide">
-              Fototecas del Campo Misionero
+              Fototecas del Campo
             </h2>
             <span className="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-[#38bdf8] font-semibold border border-slate-700">
               Galería WebP
@@ -463,7 +463,7 @@ export const StreamingView: React.FC<StreamingViewProps> = ({ onNavigateTab }) =
           Acceso Libre para Intercesores & Discípulos
         </h3>
         <p className="text-slate-400 text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed">
-          Todos los videos, cabeceras y documentales actuales se encuentran en acceso libre para edificación de la obra misionera.
+          Todos los videos, cabeceras y documentales actuales se encuentran en acceso libre para edificación de la obra.
           Más adelante se integrarán estrenos exclusivos, eventos en vivo y producciones especiales.
         </p>
       </section>
@@ -550,7 +550,7 @@ export const StreamingView: React.FC<StreamingViewProps> = ({ onNavigateTab }) =
                 <div className="space-y-1">
                   <p className="text-xs text-[#38bdf8] font-semibold flex items-center gap-1.5">
                     <span className="material-symbols-outlined text-[17px]">auto_stories</span>
-                    {activeVideo.scriptureRef || 'MMM Turquía — Obra Misionera'}
+                    {activeVideo.scriptureRef || 'MMM Turquía — Obra'}
                   </p>
                   <p className="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-2xl">
                     {activeVideo.synopsis}

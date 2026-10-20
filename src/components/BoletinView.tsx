@@ -86,7 +86,7 @@ export const BoletinView: React.FC<BoletinViewProps> = ({
             <div className="relative w-full h-full cursor-pointer group" onClick={() => setIsVideoPlaying(true)}>
               <img
                 src="/src/assets/images/intranet_hero_bosphorus_1792130893706.jpg"
-                alt="Expedición Misionera Turquía"
+                alt="Expedición Turquía"
                 className="w-full h-full object-cover opacity-80 group-hover:opacity-90 transition-opacity"
               />
               <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center gap-3">
@@ -94,7 +94,7 @@ export const BoletinView: React.FC<BoletinViewProps> = ({
                   <span className="material-symbols-outlined text-[36px] ml-1">play_arrow</span>
                 </div>
                 <div className="text-white text-center px-4">
-                  <div className="font-serif-title font-bold text-lg">Expedición Misionera 2026</div>
+                  <div className="font-serif-title font-bold text-lg">Expedición 2026</div>
                   <div className="text-xs text-slate-200">Haz clic para reproducir el mensaje introductorio</div>
                 </div>
               </div>
@@ -102,7 +102,7 @@ export const BoletinView: React.FC<BoletinViewProps> = ({
           ) : (
             <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center text-white bg-slate-900">
               <span className="material-symbols-outlined text-4xl text-[#0e9594] mb-2">videocam</span>
-              <p className="text-sm font-semibold mb-3">Reproductor de Video Misionero (Bunny Stream / WebM)</p>
+              <p className="text-sm font-semibold mb-3">Reproductor de Video (Bunny Stream / WebM)</p>
               <p className="text-xs text-slate-400 max-w-md mb-4">
                 Testimonios de las hermanas en Anatolia, panorámica de Estambul y los desafíos de la movilización.
               </p>

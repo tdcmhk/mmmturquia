@@ -83,7 +83,7 @@ export const RootHomeView: React.FC<RootHomeViewProps> = ({
             <button
               onClick={() => onNavigateTab('streaming')}
               className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-[#0e9594] to-[#1e3a8a] hover:from-[#0c7a79] hover:to-[#172554] text-white font-bold text-sm border border-[#38bdf8]/40 shadow-md transition-all hover:scale-105"
-              title="Ver videos, cabeceras y documentales misioneros en streaming"
+              title="Ver videos, cabeceras y documentales en streaming"
             >
               <span className="material-symbols-outlined text-[19px] text-[#38bdf8]">live_tv</span>
               <span>Streaming Play</span>
@@ -157,7 +157,7 @@ export const RootHomeView: React.FC<RootHomeViewProps> = ({
             La Cuna del Cristianismo Primitivo
           </span>
           <h2 className="font-serif-title text-2xl sm:text-3xl font-bold text-white">
-            El Campo Misionero: Turquía & Asia Menor
+            El Campo: Turquía & Asia Menor
           </h2>
           <p className="text-xs sm:text-sm text-slate-400 max-w-2xl mx-auto">
             En esta tierra donde caminaron los apóstoles Pablo, Juan y Pedro, y donde se levantaron las 7 Iglesias del libro de Apocalipsis, hoy volvemos a levantar antorchas de fe, oración y testimonio bíblico.
@@ -181,7 +181,7 @@ export const RootHomeView: React.FC<RootHomeViewProps> = ({
             </div>
             <h4 className="font-serif-title text-base font-bold text-[#fbbf24]">Esmirna (İzmir)</h4>
             <p className="text-xs text-slate-400 leading-relaxed">
-              Ciudad portuaria del Egeo, modelo de fidelidad en la prueba, corona de vida y perseverancia misionera.
+              Ciudad portuaria del Egeo, modelo de fidelidad en la prueba, corona de vida y perseverancia.
             </p>
           </div>
 

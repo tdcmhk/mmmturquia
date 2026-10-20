@@ -7,7 +7,7 @@ export const RamadanView: React.FC = () => {
     { day: 3, title: 'Los Jóvenes Universitarios en Estambul', scripture: 'Eclesiastés 12:1', focus: 'Por las nuevas generaciones que cuestionan el vacío y anhelan un propósito eterno.' },
     { day: 4, title: 'La Literatura Bíblica en Hogares Turcos', scripture: 'Salmos 119:105', focus: 'Por la distribución de la Biblia (Kutsal Kitap) y que ninguna palabra vuelva vacía.' },
     { day: 5, title: 'La Paz en Matrimonios y Familias', scripture: 'Josué 24:15', focus: 'Por los hogares mixtos y la victoria del amor sacrificial cristiano.' },
-    { day: 6, title: 'Los Obreros y Misioneros en Primera Línea', scripture: '2 Tesalonicenses 3:1', focus: 'Por protección sobrenatural, salud y denuedo al predicar el Evangelio.' }
+    { day: 6, title: 'Los Obreros y Movilizadores en Primera Línea', scripture: '2 Tesalonicenses 3:1', focus: 'Por protección sobrenatural, salud y denuedo al predicar el Evangelio.' }
   ];
 
   return (

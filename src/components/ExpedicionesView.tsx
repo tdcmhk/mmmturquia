@@ -15,7 +15,7 @@ export const ExpedicionesView: React.FC<ExpedicionesViewProps> = ({ projects }) 
           <span>Movilización Territorial en Turquía & Fronteras</span>
         </div>
         <h2 className="font-serif-title text-2xl sm:text-3xl font-bold mb-3">
-          Expediciones Misioneras 2026
+          Expediciones 2026
         </h2>
         <p className="text-slate-200 text-xs sm:text-sm max-w-2xl leading-relaxed">
           Seguimiento de las rutas apostólicas, visitas a creyentes dispersos en las provincias del Mármara y preparación del viaje transfronterizo a Grecia en noviembre.
@@ -43,10 +43,10 @@ export const ExpedicionesView: React.FC<ExpedicionesViewProps> = ({ projects }) 
                 02 al 06 de Noviembre 2026
               </div>
               <h3 className="font-serif-title text-lg font-bold text-slate-900 dark:text-white mb-2">
-                Salida Misionera: Bursa y Balıkesir
+                Salida: Bursa y Balıkesir
               </h3>
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                Visita a 8 hogares de familias latinas y turcas contactadas. Entrega de literatura bíblica y talleres de discipulado de mujeres guiados por las misioneras Andrea y Natalia.
+                Visita a 8 hogares de familias latinas y turcas contactadas. Entrega de literatura bíblica y talleres de discipulado de mujeres guiados por las movilizadoras Andrea y Natalia.
               </p>
             </div>
 
@@ -89,7 +89,7 @@ export const ExpedicionesView: React.FC<ExpedicionesViewProps> = ({ projects }) 
                 14 al 20 de Noviembre 2026
               </div>
               <h3 className="font-serif-title text-lg font-bold text-slate-900 dark:text-white mb-2">
-                Exploración Misionera: Grecia & Ruta de Macedonia
+                Exploración 2026: Grecia & Ruta de Macedonia
               </h3>
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                 Cruzando fronteras hacia la región helénica para conectar con obreros locales, coordinar atención pastoral a migrantes y evaluar aperturas de obra.

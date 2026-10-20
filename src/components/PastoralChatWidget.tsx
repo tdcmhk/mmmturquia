@@ -56,7 +56,7 @@ export const PastoralChatWidget: React.FC = () => {
           <div className="p-4 bg-slate-50 dark:bg-slate-900/60 space-y-3 max-h-[420px] overflow-y-auto">
             <div className="p-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-200 leading-relaxed shadow-2xs">
               <p>¡Dios te bendiga! Escribe tu petición o consulta y te responderemos directamente por WhatsApp.</p>
-              <span className="block text-[10px] text-slate-400 text-right mt-1 font-mono-code">Equipo de Misión</span>
+              <span className="block text-[10px] text-slate-400 text-right mt-1 font-mono-code">Equipo de Movilización</span>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-2.5">
@@ -77,7 +77,7 @@ export const PastoralChatWidget: React.FC = () => {
                 <option value="Petición de Oración">🙏 Petición de Oración</option>
                 <option value="Testimonio / Agradecimiento">✨ Testimonio o Agradecimiento</option>
                 <option value="Consulta sobre el Boletín">📖 Consulta sobre el Boletín</option>
-                <option value="Apoyo a Expedición Misionera">🗺️ Apoyo a Expedición Misionera</option>
+                <option value="Apoyo a Expedición Misionera">🗺️ Apoyo a Expedición</option>
                 <option value="Otro motivo">✉️ Otro motivo</option>
               </select>
 

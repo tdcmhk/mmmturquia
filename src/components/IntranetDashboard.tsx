@@ -183,7 +183,7 @@ export const IntranetDashboard: React.FC<IntranetDashboardProps> = ({
                     {t.calendar_title}
                   </h2>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Vigilias, salidas misioneras y actividades de la obra
+                    Vigilias, salidas y actividades de la obra
                   </p>
                 </div>
               </div>
@@ -476,7 +476,7 @@ export const IntranetDashboard: React.FC<IntranetDashboardProps> = ({
                         onClick={() => onNavigateTab('expediciones')}
                         className="w-full py-1.5 rounded-lg border border-[#0e9594] text-[#0e9594] hover:bg-[#0e9594] hover:text-white text-xs font-bold transition-colors text-center"
                       >
-                        Respaldar Misión
+                        Respaldar Movilización
                       </button>
                     </div>
                   </div>
@@ -694,7 +694,7 @@ export const IntranetDashboard: React.FC<IntranetDashboardProps> = ({
                     Nuevos grupos de oración en hogares latinos de Estambul
                   </h4>
                   <div className="text-[10px] text-slate-400 font-mono-code">
-                    12 Octubre · Por Misionera Andrea
+                    12 Octubre · Por Movilizadora Andrea
                   </div>
                 </div>
               </article>

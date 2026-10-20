@@ -80,7 +80,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   {t.nav_logo || 'ESPERANZA VIVA'}
                 </span>
                 <span className="text-[9px] sm:text-[10px] text-[#d4af37] font-semibold tracking-wider leading-tight truncate">
-                  Misión & Radio 24/7
+                  Radio 24/7
                 </span>
               </div>
             </button>

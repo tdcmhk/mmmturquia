@@ -118,7 +118,7 @@ export const INITIAL_PRAYER_BLOCKS: PrayerBlock[] = [
     scriptureRef: '1 Pedro 4:10-11',
     scriptureText: '«Cada uno según el don que ha recibido, minístrelo a los otros, como buenos administradores de la multiforme gracia de Dios... para que en todo sea Dios glorificado por Jesucristo...»',
     context: 'El servicio cristiano en medio de una minoría demanda una entrega total sostenida por la gracia. Pedro exhorta a ministrar según el poder que Dios concede, recordando a las obreras que su fuerza no radica en recursos humanos, sino en el respaldo del Espíritu Santo.',
-    challenge: 'Prevenir el desgaste físico, emocional y espiritual de las misioneras ante la alta demanda de atención personalizada, la dispersión de las personas que acompañan y la necesidad de discernimiento para priorizar a quienes acompañan.',
+    challenge: 'Prevenir el desgaste físico, emocional y espiritual de las movilizadoras ante la alta demanda de atención personalizada, la dispersión de las personas que acompañan y la necesidad de discernimiento para priorizar a quienes acompañan.',
     items: [
       {
         title: 'Servicio',
@@ -126,7 +126,7 @@ export const INITIAL_PRAYER_BLOCKS: PrayerBlock[] = [
       },
       {
         title: 'Sabiduría y Provisión',
-        description: 'Pidamos al Señor que les conceda discernimiento, salud, protección física y provisión integral en cada etapa de su labor misionera en Turquía.'
+        description: 'Pidamos al Señor que les conceda discernimiento, salud, protección física y provisión integral en cada etapa de su labor en Turquía.'
       }
     ],
     imageUrl: '/src/assets/images/bible_study_fellowship_1792130895365.jpg',
@@ -166,7 +166,7 @@ export const INITIAL_PRAYER_BLOCKS: PrayerBlock[] = [
   {
     id: 'seccion-7',
     number: 7,
-    title: 'Recursos para los próximos viajes misioneros (Bursa y Balıkesir)',
+    title: 'Recursos para los próximos viajes (Bursa y Balıkesir)',
     scriptureRef: '1 Pedro 4:11',
     scriptureText: '«El que habla, hable conforme a las palabras de Dios; el que sirve, sirva conforme al poder que Dios da, para que en todo sea Dios glorificado por Jesucristo...»',
     context: 'En el contexto apostólico, la expansión del Evangelio por las provincias de Asia Menor requería movilidad y la provisión del Señor a través del apoyo mutuo. Viajar a ciudades clave representaba la oportunidad de consolidar redes, sembrar la verdad y estrechar lazos comunitarios.',
@@ -174,7 +174,7 @@ export const INITIAL_PRAYER_BLOCKS: PrayerBlock[] = [
     items: [
       {
         title: 'Logística y Provisión',
-        description: 'Oremos por la provisión económica necesaria para realizar los viajes a Bursa y Balıkesir, transporte seguro y cobertura para cada gasto de la misión.'
+        description: 'Oremos por la provisión económica necesaria para realizar los viajes a Bursa y Balıkesir, transporte seguro y cobertura para cada gasto de la movilización.'
       },
       {
         title: 'Relaciones y Discipulado',
@@ -194,7 +194,7 @@ export const INITIAL_PRAYER_BLOCKS: PrayerBlock[] = [
     title: 'Viajar a Grecia en noviembre',
     scriptureRef: '1 Pedro 1:17b',
     scriptureText: '«...conducíos en temor todo el tiempo de vuestra peregrinación.»',
-    context: 'La historia misionera del Nuevo Testamento muestra cómo el mensaje cruzó mares desde Asia Menor hacia la región de Macedonia y Acaya (Grecia). Este trasfondo fundamenta la búsqueda de dirección, confirmación divina y puertas abiertas para extender las redes de discipulado.',
+    context: 'La historia del Nuevo Testamento muestra cómo el mensaje cruzó mares desde Asia Menor hacia la región de Macedonia y Acaya (Grecia). Este trasfondo fundamenta la búsqueda de dirección, confirmación divina y puertas abiertas para extender las redes de discipulado.',
     challenge: 'Gestionar la complejidad tramitológica, visados y requisitos documentales de ingreso a la Unión Europea, así como la provisión de fondos y la alineación de agenda con los contactos locales en Grecia.',
     items: [
       {
@@ -224,7 +224,7 @@ export const INITIAL_PRAYER_BLOCKS: PrayerBlock[] = [
     items: [
       {
         title: 'Evangelismo',
-        description: 'Demos gracias al Señor por cada puerta abierta, cada encuentro, cada conversación y cada persona alcanzada durante la labor misionera.'
+        description: 'Demos gracias al Señor por cada puerta abierta, cada encuentro, cada conversación y cada persona alcanzada durante la labor.'
       },
       {
         title: 'Crecimiento y Frutos',
@@ -270,7 +270,7 @@ export const INITIAL_CALENDAR_EVENTS: CalendarEvent[] = [
     day: 2,
     month: 'NOV',
     year: 2026,
-    title: 'Salida Misionera y Visita Pastoral: Bursa y Balıkesir',
+    title: 'Salida y Visita Pastoral: Bursa y Balıkesir',
     time: 'Todo el día (02 al 06 de Nov)',
     location: 'Bursa y Balıkesir, Turquía',
     category: 'mision',
@@ -282,23 +282,23 @@ export const INITIAL_CALENDAR_EVENTS: CalendarEvent[] = [
     day: 14,
     month: 'NOV',
     year: 2026,
-    title: 'Encuentro Transfronterizo Misionero (Grecia)',
+    title: 'Encuentro Transfronterizo (Grecia)',
     time: '10:00 am - 16:00 pm',
     location: 'Tesalónica / Frontera Helénica',
     category: 'reunion',
-    description: 'Reunión estratégica para afianzar lazos misioneros en la ruta de Macedonia y apoyar a obreros en tránsito.',
+    description: 'Reunión estratégica para afianzar lazos en la ruta de Macedonia y apoyar a obreros en tránsito.',
     linkText: 'Agenda Pastoral'
   }
 ];
 
 export const INITIAL_POLL: Poll = {
   id: 'poll-semana-actual',
-  question: '¿Por cuál frente misionero te comprometes a clamar con mayor intensidad esta semana?',
+  question: '¿Por cuál frente te comprometes a clamar con mayor intensidad esta semana?',
   options: [
-    { id: 1, text: 'Provisión para viajes misioneros a Bursa y Balıkesir', votes: 142 },
+    { id: 1, text: 'Provisión para viajes a Bursa y Balıkesir', votes: 142 },
     { id: 2, text: 'Crecimiento y hambre de la Palabra en mujeres latinas y turcas', votes: 198 },
     { id: 3, text: 'Protección, salud y cobertura para Andrea y Natalia', votes: 165 },
-    { id: 4, text: 'Confirmación y apertura de puertas para la misión a Grecia', votes: 89 }
+    { id: 4, text: 'Confirmación y apertura de puertas para la movilización a Grecia', votes: 89 }
   ],
   totalVotes: 594,
   userVotedOptionId: null
@@ -327,7 +327,7 @@ export const INITIAL_PROJECTS: MissionaryProject[] = [
   },
   {
     id: 'proj-grecia',
-    title: 'Visita Misionera a Grecia (Noviembre)',
+    title: 'Visita a Grecia (Noviembre)',
     description: 'Gestión de visados, pasajes y coordinación con pastores colaboradores en la región de Macedonia.',
     progressPercent: 42,
     goal: '$2,800 USD',
@@ -350,8 +350,8 @@ export const INITIAL_CHAT_MESSAGES: ChatMessage[] = [
   {
     id: 'msg-2',
     userId: 'u102',
-    userName: 'Misionera Andrea',
-    role: 'Misionera en Campo',
+    userName: 'Movilizadora Andrea',
+    role: 'Movilizadora en Campo',
     content: 'Dios está abriendo puertas maravillosas en la reunión de mujeres. Sigan orando por el Bloque 1 y 2.',
     timestamp: '10:42',
     avatar: 'AN'
@@ -379,7 +379,7 @@ export const INITIAL_CHAT_MESSAGES: ChatMessage[] = [
 export const INITIAL_BIRTHDAYS: MissionaryBirthday[] = [
   {
     id: 'b-1',
-    name: 'Misionera Natalia',
+    name: 'Movilizadora Natalia',
     role: 'Obrera en Estambul',
     age: 32,
     date: '20 Octubre',
@@ -395,7 +395,7 @@ export const INITIAL_BIRTHDAYS: MissionaryBirthday[] = [
   },
   {
     id: 'b-3',
-    name: 'Misionera Andrea',
+    name: 'Movilizadora Andrea',
     role: 'Discipulado y Familias',
     age: 34,
     date: '18 Noviembre',
@@ -508,7 +508,7 @@ export const INITIAL_DIARY_ENTRIES: DailyPrayerEntry[] = [
       {
         id: 'd3-m2',
         title: 'Fondos de Traslado',
-        description: 'Provisión completa para los boletos aéreos y hospedaje misionero.',
+        description: 'Provisión completa para los boletos aéreos y hospedaje.',
         isAnswered: true,
         answeredDate: '14 Oct',
         responseComments: [
@@ -525,7 +525,7 @@ export const INITIAL_DIARY_ENTRIES: DailyPrayerEntry[] = [
       {
         id: 'rc-d3-main',
         author: 'Intercesor Douglas',
-        text: 'Viendo la mano de Dios obrando paso a paso en esta petición misionera familiar.',
+        text: 'Viendo la mano de Dios obrando paso a paso en esta petición familiar.',
         date: '14 Oct 2026'
       }
     ]

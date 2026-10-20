@@ -30,7 +30,7 @@ interface ScheduleProgram {
   endHour: number;
   title: string;
   speaker: string;
-  category: 'adoracion' | 'biblia' | 'oracion' | 'mision';
+  category: 'adoracion' | 'biblia' | 'oracion' | 'movilización';
   categoryLabel: string;
   brief: string;
 }
@@ -119,8 +119,8 @@ const SCHEDULE_PROGRAMS: ScheduleProgram[] = [
     endHour: 14,
     title: 'Voz de Esperanza — Cartas de Asia Menor',
     speaker: 'Pr. David Ortiz',
-    category: 'mision',
-    categoryLabel: 'Testimonios Misioneros',
+    category: 'movilización',
+    categoryLabel: 'Testimonios',
     brief: 'Crónicas, testimonios reales de creyentes en Turquía y avances del Evangelio en el Bósforo.'
   },
   {
@@ -322,7 +322,7 @@ export const RadioView: React.FC<RadioViewProps> = ({
 
               <p className="text-xs sm:text-sm text-slate-400 flex items-center justify-center md:justify-start gap-1.5">
                 <span className="material-symbols-outlined text-[18px] text-[#fbbf24]">mic</span>
-                <span>Conduce: <strong className="text-white">Pr. Daniel Salazar & Equipo de Misión</strong></span>
+                <span>Conduce: <strong className="text-white">Pr. Daniel Salazar & Equipo de Movilización</strong></span>
               </p>
 
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-xl">
@@ -462,7 +462,7 @@ export const RadioView: React.FC<RadioViewProps> = ({
             { id: 'adoracion', label: 'Alabanza y Adoración' },
             { id: 'biblia', label: 'Estudio Bíblico' },
             { id: 'oracion', label: 'Oración e Intercesión' },
-            { id: 'mision', label: 'Testimonios Misioneros' }
+            { id: 'mision', label: 'Testimonios' }
           ].map((cat) => (
             <button
               key={cat.id}
@@ -741,7 +741,7 @@ export const RadioView: React.FC<RadioViewProps> = ({
                   <option value="wsp">Deseo unirme al grupo de WhatsApp y Red de Intercesión</option>
                   <option value="info">Deseo conocer más sobre la obra en Turquía</option>
                   <option value="oracion">Petición de oración personal para la Radio</option>
-                  <option value="mision">Interés en apoyo o expediciones misioneras</option>
+                  <option value="mision">Interés en apoyo o expediciones</option>
                 </select>
 
                 <textarea

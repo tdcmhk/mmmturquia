@@ -9,11 +9,11 @@ interface ConfiguracionViewProps {
   onNavigateTab: (tab: NavTab) => void;
 }
 
-const LANGUAGES: { code: Language; name: string; nativeName: string; desc: string }[] = [
-  { code: 'es', name: 'Español', nativeName: 'Español', desc: 'Idioma principal de la misión' },
-  { code: 'tr', name: 'Turco', nativeName: 'Türkçe', desc: 'Türkiye için yerel dil' },
-  { code: 'en', name: 'Inglés', nativeName: 'English', desc: 'Global missionary reach' },
-  { code: 'it', name: 'Italiano', nativeName: 'Italiano', desc: 'Comunità in Europa' }
+const LANGUAGES: { code: Language; name: string; nativeName: string}[] = [
+  { code: 'es', name: 'Español', nativeName: 'Español'  },
+  { code: 'tr', name: 'Turco', nativeName: 'Türkçe' },
+  { code: 'en', name: 'Inglés', nativeName: 'English'  },
+  { code: 'it', name: 'Italiano', nativeName: 'Italiano' }
 ];
 
 export const ConfiguracionView: React.FC<ConfiguracionViewProps> = ({

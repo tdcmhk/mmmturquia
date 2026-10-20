@@ -3,23 +3,23 @@ import { StreamingVideo, DocumentarySeries } from '../types';
 export const STREAMING_FEATURED_VIDEO: StreamingVideo = {
   id: 'expedicion-2026-iv',
   title: 'Expedición 2026: En la Ruta de los Apóstoles',
-  subtitle: 'Documental Oficial de la Misión MMM Turquía',
+  subtitle: 'Documental Oficial de la MMM Turquía',
   category: 'expedicion',
   duration: '14 min',
   year: '2026',
   videoSrc: '/assets/videos/expedicion2026iv.webm',
   thumbnail: '/assets/covers/portada1.webp',
   badge: 'ESTRENO EXCLUSIVO',
-  synopsis: 'Un recorrido visual y espiritual profundo por el puente entre Europa y Asia. Conoce los frentes pioneros del Movimiento Misionero Mundial en Estambul, la meseta de Anatolia y las históricas ciudades bíblicas de Asia Menor, donde el clamor de la intercesión abre caminos.',
+  synopsis: 'Un recorrido visual y espiritual profundo por el puente entre Europa y Asia. Conoce los frentes pioneros del Movimiento Mundial en Estambul, la meseta de Anatolia y las históricas ciudades bíblicas de Asia Menor, donde el clamor de la intercesión abre caminos.',
   scriptureRef: 'Hechos 16:9 — «Pasa a Macedonia y ayúdanos»',
-  tags: ['4K Ultra HD', 'Documental Misionero', 'Año 2026', 'Subtítulos ES/TR', 'Exclusivo'],
+  tags: ['4K Ultra HD', 'Año 2026', 'Subtítulos ES/TR', 'Exclusivo'],
   featured: true
 };
 
 export const STREAMING_VIDEOS_CAROUSEL: StreamingVideo[] = [
   {
     id: 'vid-expedicion',
-    title: 'Expedición 2026: Avance Misionero',
+    title: 'Expedición 2026: Avance',
     subtitle: 'Ruta apostólica por las 7 regiones',
     category: 'expedicion',
     duration: '14 min',
@@ -27,7 +27,7 @@ export const STREAMING_VIDEOS_CAROUSEL: StreamingVideo[] = [
     videoSrc: '/assets/videos/expedicion2026iv.webm',
     thumbnail: '/assets/covers/portada1.webp',
     badge: '4K HD',
-    synopsis: 'La travesía misionera que documenta la visión apostólica en Turquía para el año 2026, conectando creyentes locales y la red global de oración.',
+    synopsis: 'La travesía que documenta la visión apostólica en Turquía para el año 2026, conectando creyentes locales y la red global de oración.',
     scriptureRef: 'Hechos 1:8',
     tags: ['Expedición', 'Visión 2026', 'Intercesión'],
     featured: true
@@ -77,7 +77,7 @@ export const STREAMING_VIDEOS_CAROUSEL: StreamingVideo[] = [
   {
     id: 'vid-head6',
     title: 'Llamado a las Naciones: Visión 2026',
-    subtitle: 'Movilización misionera global',
+    subtitle: 'Movilización global',
     category: 'avance',
     duration: '6 min',
     year: '2026',
@@ -86,7 +86,7 @@ export const STREAMING_VIDEOS_CAROUSEL: StreamingVideo[] = [
     badge: 'VISIÓN',
     synopsis: 'Un mensaje directo sobre la necesidad de obreros y recursos espirituales para el avivamiento en el Medio Oriente.',
     scriptureRef: 'Mateo 9:37-38',
-    tags: ['Movilización', 'Misioneros', 'Llamado']
+    tags: ['Movilización', 'Llamado']
   }
 ];
 
@@ -109,7 +109,7 @@ export const DOCUMENTARY_SERIES: DocumentarySeries[] = [
     coverImage: '/assets/covers/portada2.webp',
     badge: 'BIOGRÁFICO',
     category: 'Historia Apostólica',
-    synopsis: 'Siguiendo las tres rutas misioneras de Pablo a través de Tarso, Antioquía de Pisidia, Iconio, Listra y Derbe.',
+    synopsis: 'Siguiendo las tres rutas de Pablo a través de Tarso, Antioquía de Pisidia, Iconio, Listra y Derbe.',
     releaseYear: '2026',
     rating: 'Recomendado'
   },
@@ -119,7 +119,7 @@ export const DOCUMENTARY_SERIES: DocumentarySeries[] = [
     episodesCount: '5 Capítulos',
     coverImage: '/assets/covers/portada3.webp',
     badge: 'TESTIMONIOS',
-    category: 'Vida Misionera',
+    category: 'Vida Movilizadora',
     synopsis: 'Historias reales de pastores, obreros y familias que han visto la mano protectora del Señor al predicar en Turquía.',
     releaseYear: '2026',
     rating: 'Inspirador'
@@ -131,7 +131,7 @@ export const DOCUMENTARY_SERIES: DocumentarySeries[] = [
     coverImage: '/assets/covers/portada4.webp',
     badge: 'DOCUMENTAL',
     category: 'Geografía Sagrada',
-    synopsis: 'Crónica misionera desde las fronteras orientales de Turquía, elevando clamor en las fuentes del Éufrates y los montes de Ararat.',
+    synopsis: 'Crónica desde las fronteras orientales de Turquía, elevando clamor en las fuentes del Éufrates y los montes de Ararat.',
     releaseYear: '2026',
     rating: 'Especial'
   },

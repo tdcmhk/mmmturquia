@@ -365,7 +365,7 @@ export const PerfilView: React.FC<PerfilViewProps> = ({
               Solicitud en Espera de Aprobación
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-              Tus datos han sido enviados exitosamente al equipo pastoral de la misión.
+              Tus datos han sido enviados exitosamente al equipo pastoral.
             </p>
           </div>
 
@@ -428,7 +428,7 @@ export const PerfilView: React.FC<PerfilViewProps> = ({
                   ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300 border border-emerald-300'
                   : 'bg-blue-100 text-blue-800 dark:bg-blue-950/70 dark:text-blue-300 border border-blue-300'
               }`}>
-                {isAdmin ? 'Pastor / Administrador' : currentUser.rol === 'intercesor' ? 'Intercesor Acreditado' : 'Seguidor de la Misión'}
+                {isAdmin ? 'Pastor / Administrador' : currentUser.rol === 'intercesor' ? 'Intercesor Acreditado' : 'Seguidor de la Movilización'}
               </span>
               <span className="text-xs text-slate-400">({currentUser.email})</span>
             </div>
